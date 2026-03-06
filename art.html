@@ -1,0 +1,288 @@
+```html
+<!DOCTYPE html>
+<html>
+<head>
+<title>Creative Arts Booking</title>
+
+<style>
+
+body{
+font-family:Arial;
+margin:0;
+background:#eef7ff;
+text-align:center;
+}
+
+header{
+background:#0077b6;
+color:white;
+padding:20px;
+}
+
+.container{
+display:flex;
+flex-wrap:wrap;
+justify-content:center;
+gap:20px;
+padding:20px;
+}
+
+.card{
+background:white;
+width:220px;
+padding:10px;
+border-radius:10px;
+box-shadow:0 0 10px gray;
+}
+
+.card img{
+width:100%;
+height:150px;
+object-fit:cover;
+border-radius:8px;
+}
+
+button{
+background:#0077b6;
+color:white;
+border:none;
+padding:10px;
+margin-top:10px;
+cursor:pointer;
+border-radius:5px;
+}
+
+.page{
+display:none;
+}
+
+.active{
+display:block;
+}
+
+form{
+width:300px;
+margin:auto;
+display:flex;
+flex-direction:column;
+gap:10px;
+}
+
+input,textarea{
+padding:10px;
+border-radius:5px;
+border:1px solid gray;
+}
+
+</style>
+</head>
+
+<body>
+
+<header>
+<h1>Creative Arts Studio</h1>
+<p>Logo • Poster • Flex • LED • Photo Frames • Gifts</p>
+</header>
+
+
+<!-- HOME PAGE -->
+
+<div id="home" class="page active">
+
+<h2>Our Services</h2>
+
+<div class="container">
+
+<div class="card">
+<img src="https://images.unsplash.com/photo-1634942537034-2531766767d1">
+<h3>Logo Design</h3>
+<button onclick="openCategory('Logo Design','logo')">View Designs</button>
+</div>
+
+<div class="card">
+<img src="https://images.unsplash.com/photo-1542744173-8e7e53415bb0">
+<h3>Poster Design</h3>
+<button onclick="openCategory('Poster Design','poster')">View Designs</button>
+</div>
+
+<div class="card">
+<img src="https://images.unsplash.com/photo-1598300056398-6d7b4c9d8c8e">
+<h3>Flex Boards</h3>
+<button onclick="openCategory('Flex Boards','flex')">View Designs</button>
+</div>
+
+<div class="card">
+<img src="https://images.unsplash.com/photo-1601979031925-424e53b6caaa">
+<h3>LED Boards</h3>
+<button onclick="openCategory('LED Boards','led')">View Designs</button>
+</div>
+
+<div class="card">
+<img src="https://images.unsplash.com/photo-1504196606672-aef5c9cefc92">
+<h3>Photo Frames</h3>
+<button onclick="openCategory('Photo Frames','photo')">View Designs</button>
+</div>
+
+<div class="card">
+<img src="https://images.unsplash.com/photo-1513885535751-8b9238bd345a">
+<h3>Gifts</h3>
+<button onclick="openCategory('Gifts','gift')">View Designs</button>
+</div>
+
+</div>
+</div>
+
+
+<!-- CATEGORY PAGE -->
+
+<div id="category" class="page">
+
+<h2 id="categoryTitle"></h2>
+
+<div class="container" id="designContainer"></div>
+
+<br>
+<button onclick="goHome()">⬅ Back</button>
+
+</div>
+
+
+<!-- BOOKING PAGE -->
+
+<div id="booking" class="page">
+
+<h2>Booking Form</h2>
+
+<form id="bookingForm">
+
+<input type="text" id="name" placeholder="Your Name" required>
+
+<input type="text" id="phone" placeholder="Phone Number" required>
+
+<input type="text" id="serviceName" readonly>
+
+<textarea id="details" placeholder="Project Details"></textarea>
+
+<button type="submit">Submit Booking</button>
+
+</form>
+
+<br>
+<button onclick="goHome()">Back Home</button>
+
+</div>
+
+
+<script>
+
+let selectedService="";
+
+const designs={
+
+logo:[
+"https://images.unsplash.com/photo-1634942537034-2531766767d1",
+"https://images.unsplash.com/photo-1626785774625-ddcddc3445e9",
+"https://images.unsplash.com/photo-1604328698692-f76ea9498e76"
+],
+
+poster:[
+"https://images.unsplash.com/photo-1542744173-8e7e53415bb0",
+"https://images.unsplash.com/photo-1529336953121-ad5a0d43d0d2",
+"https://images.unsplash.com/photo-1515378791036-0648a3ef77b2"
+],
+
+flex:[
+"https://images.unsplash.com/photo-1598300056398-6d7b4c9d8c8e",
+"https://images.unsplash.com/photo-1593642532744-d377ab507dc8",
+"https://images.unsplash.com/photo-1519389950473-47ba0277781c"
+],
+
+led:[
+"https://images.unsplash.com/photo-1601979031925-424e53b6caaa",
+"https://images.unsplash.com/photo-1581092335397-9583eb92d232",
+"https://images.unsplash.com/photo-1587614382346-4ec70e388b28"
+],
+
+photo:[
+"https://images.unsplash.com/photo-1504196606672-aef5c9cefc92",
+"https://images.unsplash.com/photo-1500530855697-b586d89ba3ee",
+"https://images.unsplash.com/photo-1492724441997-5dc865305da7"
+],
+
+gift:[
+"https://images.unsplash.com/photo-1513885535751-8b9238bd345a",
+"https://images.unsplash.com/photo-1512909006721-3d6018887383",
+"https://images.unsplash.com/photo-1512436991641-6745cdb1723f"
+]
+
+};
+
+function openCategory(service,key){
+
+selectedService=service;
+
+document.getElementById("home").classList.remove("active");
+document.getElementById("category").classList.add("active");
+
+document.getElementById("categoryTitle").innerText=service;
+
+let container=document.getElementById("designContainer");
+
+container.innerHTML="";
+
+designs[key].forEach(img=>{
+
+container.innerHTML+=`
+<div class="card">
+<img src="${img}">
+<button onclick="bookNow()">Book Now</button>
+</div>
+`;
+
+});
+
+}
+
+function bookNow(){
+
+document.getElementById("category").classList.remove("active");
+document.getElementById("booking").classList.add("active");
+
+document.getElementById("serviceName").value=selectedService;
+
+}
+
+function goHome(){
+
+document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"));
+
+document.getElementById("home").classList.add("active");
+
+}
+
+document.getElementById("bookingForm").addEventListener("submit",function(e){
+
+e.preventDefault();
+
+let name=document.getElementById("name").value;
+let phone=document.getElementById("phone").value;
+let service=document.getElementById("serviceName").value;
+let details=document.getElementById("details").value;
+
+let message="New Booking%0A%0A"
++"Name: "+name+"%0A"
++"Phone: "+phone+"%0A"
++"Service: "+service+"%0A"
++"Details: "+details;
+
+let whatsapp="https://wa.me/9342380860?text="+message;
+
+window.open(whatsapp,"_blank");
+
+});
+
+</script>
+
+</body>
+</html>
+```
